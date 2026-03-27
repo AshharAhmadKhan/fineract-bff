@@ -120,7 +120,7 @@ graph TD
     A -->|HTTPS — Bearer JWT| B
     E -->|REST API\nService Account Only| G
 ```
-Ownership enforcement at the BFF layer compensates for the absence of ABAC in Fineract — a borrower can only access their own resources, enforced by verifying JWT claims against Fineract's response on every request.
+Ownership enforcement at the BFF layer compensates for the absence of ABAC in Fineract — a borrower can only access their own resources, enforced by verifying JWT claims against Fineract's response on every request. This enforces per-resource ownership but does not replace full attribute-based access control, which remains a future Fineract concern.
 
 Authentication is not optional for any endpoint that touches borrower data.
 You do not get to the business logic without a valid JWT. The Authentication Filter sits
@@ -272,7 +272,7 @@ full list, verified from the Fineract source, is as follows:
 - `READ_SAVINGSACCOUNT` — read savings accounts
 - `REPAYMENT_LOAN` — submit repayment transactions
 
-If the loan application stretch goal is implemented, the service account scope will be extended to include `CREATE_LOAN` permissions at that point.
+If the loan application stretch goal is implemented, the service account scope will be extended to include the required loan application permissions as defined by Fineract's permission model at that point.
 
 The registration flow performs a single Fineract call: `GET /api/v1/loans?accountNo={accountNo}`.
 The loan response includes both clientId and clientOfficeId directly — confirmed from the
