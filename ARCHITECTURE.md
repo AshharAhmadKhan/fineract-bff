@@ -212,6 +212,7 @@ anyone building on top of this.
 | GET | /bff/v1/savings/{id}/transactions | JWT | | Savings transactions paginated |
 | POST | /bff/v1/loans/{id}/repayment | JWT | ✓ | Make repayment — idempotent |
 | POST | /bff/v1/transfers | JWT | | Same-client savings transfer |
+| POST | /bff/v1/loans/apply | JWT | | Loan application submission — clientId and officeId sourced from JWT claims |
 
 The repayment command is hardcoded inside the BFF. The borrower cannot
 touch the Fineract `command` parameter at all. This was not an accident.
@@ -351,10 +352,10 @@ I want to be clear that none of these are oversights.
 - **Multi-tenant routing** — single tenant via environment variable for the
   POC. `tenantId` is already in the JWT claims so Phase 2 routing does not
   need a token format change.
-- **Angular frontend** — out of scope for this proposal. The POC guidelines
-  define the MVP as authentication plus one core operation. The BFF delivers
-  that as a backend service. The OpenAPI spec at /bff/v1/openapi.yaml is the
-  contract any frontend builds against.
+- **Production-grade UI** — the reference borrower client is a validation
+  mechanism, not a deployable product. Its purpose is to prove the BFF API
+  surface is usable and correctly enforced end-to-end. Visual polish is
+  explicitly out of scope.
 - **Event streaming as a core dependency** — the event bridge is off by
   default. The POC works completely without it.
 - **Full microservice decomposition** — Fineract-CN tried this with around
